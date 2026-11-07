@@ -1,0 +1,900 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="data:," />
+    <title>HOVERAir Aqua Concept</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #070708;
+        --bg-soft: #0e0e10;
+        --panel: #131316;
+        --panel-2: #1a1a1e;
+        --line: #26262b;
+        --ink: #f5f4f1;
+        --ink-2: #b9b7b2;
+        --ink-3: #7e7c78;
+        --accent: #ff6a1a;
+        --accent-dark: #d14e05;
+        --paper: #f6f5f2;
+        --paper-2: #ffffff;
+        --ink-on-paper: #101013;
+        --ink-on-paper-2: #45454a;
+        --notch: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 0 100%);
+        --notch-sm: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+        --radius-lg: 26px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Open Sans", system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      h1, h2, h3, .display {
+        font-family: "DM Sans", "Open Sans", sans-serif;
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.01em;
+        margin: 0;
+      }
+      p { margin: 0; }
+      a { color: inherit; }
+      img { display: block; max-width: 100%; }
+      .wrap { width: min(1180px, 100% - 40px); margin: 0 auto; }
+
+      /* ---------- Restyle utilities: bands, notch tabs, + chips ---------- */
+      .band-white { background: var(--paper); color: var(--ink-on-paper); }
+      .band-white-2 { background: var(--paper-2); color: var(--ink-on-paper); }
+      .band-black { background: var(--bg); color: var(--ink); }
+      .band-white .sec-head .body, .band-white-2 .sec-head .body { color: var(--ink-on-paper-2); }
+      .band-tab {
+        position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+        width: 190px; height: 17px; z-index: 3; pointer-events: none;
+        clip-path: polygon(0 0, 100% 0, calc(100% - 20px) 100%, 20px 100%);
+      }
+      .tab-black { background: var(--bg); }
+      .tab-paper { background: var(--paper); }
+      .tab-white { background: var(--paper-2); }
+      .plus-chip {
+        flex: 0 0 auto; width: 27px; height: 27px;
+        background: var(--accent); color: #160a02;
+        display: grid; place-items: center;
+        font-family: "DM Sans", sans-serif; font-weight: 800; font-size: 19px; line-height: 1;
+        border-radius: 9px;
+      }
+      .ptab {
+        flex: 0 0 auto; align-self: stretch;
+        width: 48px; min-height: 48px;
+        border-radius: 0 999px 999px 0;
+        display: grid; place-items: center;
+        font-size: 20px; font-weight: 700; line-height: 1;
+      }
+
+      /* ---------- Nav ---------- */
+      .nav {
+        position: sticky; top: 0; z-index: 60;
+        background: rgba(7,7,8,.86);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--line);
+      }
+      .nav-in {
+        display: flex; align-items: center; gap: 28px;
+        min-height: 62px;
+        width: min(1180px, 100% - 40px); margin: 0 auto;
+      }
+      .nav-label {
+        font-family: "DM Sans", sans-serif; font-weight: 800;
+        font-size: 17px; letter-spacing: -0.01em; white-space: nowrap;
+      }
+      .nav-label span { color: var(--accent); }
+      .nav-links {
+        display: flex; gap: 26px; margin-left: auto;
+        font-size: 14px; font-weight: 600;
+      }
+      .nav-links a { color: var(--ink-2); text-decoration: none; }
+      .nav-links a:hover { color: var(--ink); }
+      .buy-pill {
+        margin-left: 6px;
+        background: var(--accent); color: #160a02;
+        border: 0; cursor: pointer;
+        font-family: "Open Sans", sans-serif; font-weight: 700; font-size: 14px;
+        padding: 10px 18px; border-radius: 999px; white-space: nowrap;
+        transition: background .15s ease, transform .15s ease;
+      }
+      .buy-pill:hover { background: #ff7d3d; }
+      .buy-pill:active { transform: scale(.97); }
+
+      /* ---------- Hero ---------- */
+      .hero { padding: 64px 0 100px; text-align: center; position: relative; }
+      .hero-name {
+        font-size: clamp(96px, 19vw, 240px);
+        line-height: .9;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+        position: relative; z-index: 1;
+      }
+      .hero-name .last { color: var(--accent); }
+      .hero-name .dot { color: var(--ink); }
+      .hero h1 {
+        font-size: clamp(30px, 4.6vw, 52px);
+        max-width: 760px; margin: 34px auto 0;
+      }
+      .hero .sub {
+        color: var(--ink-2);
+        font-size: clamp(16px, 1.6vw, 18px);
+        max-width: 720px; margin: 22px auto 0;
+      }
+      .hero-ctas {
+        display: flex; flex-direction: column; gap: 12px; align-items: center;
+        margin-top: 34px;
+      }
+      .btn {
+        display: inline-flex; align-items: center; gap: 14px;
+        font-family: "Open Sans", sans-serif; font-weight: 700; font-size: 15px;
+        min-height: 48px;
+        padding: 0 0 0 24px; border-radius: 999px; text-decoration: none; overflow: hidden;
+        border: 1px solid var(--line); background: var(--panel-2); color: var(--ink);
+        cursor: pointer; transition: border-color .15s ease, background .15s ease, transform .15s ease;
+      }
+      .btn .ptab { background: var(--accent); color: #160a02; }
+      .btn:hover { border-color: #3d3d44; background: #202025; }
+      .btn:active { transform: scale(.98); }
+      .btn-accent { background: var(--accent); border-color: var(--accent); color: #160a02; }
+      .btn-accent .ptab { background: #160a02; color: var(--accent); }
+      .btn-accent:hover { background: #ff7d3d; border-color: #ff7d3d; }
+      .btn-ghost { background: rgba(255,255,255,.03); border-color: #34343b; }
+      .btn-ghost:hover { background: rgba(255,255,255,.07); border-color: #45454e; }
+      .hero-micro {
+        margin-top: 20px; color: var(--ink-3); font-size: 13.5px; font-weight: 600;
+        letter-spacing: .02em;
+      }
+      .hero-photo {
+        margin-top: clamp(-84px, -6vw, -24px);
+        position: relative; z-index: 2;
+      }
+      .photo-panel {
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        clip-path: var(--notch);
+        border: 1px solid var(--line);
+        background: var(--panel);
+      }
+      .photo-panel img { width: 100%; height: 100%; object-fit: cover; }
+      .hero-photo img { aspect-ratio: 3 / 2; }
+      .video-chip {
+        position: absolute; right: 16px; bottom: 16px; z-index: 3;
+        display: inline-flex; align-items: center; gap: 12px;
+        background: rgba(9,9,11,.86);
+        -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+        color: var(--ink); text-decoration: none;
+        padding: 11px 15px; clip-path: var(--notch-sm);
+        font-size: 13.5px; font-weight: 700; line-height: 1.3; text-align: left;
+      }
+      .video-chip:hover { background: rgba(20,20,24,.92); }
+      .video-chip .vc-play {
+        flex: 0 0 auto; width: 30px; height: 30px;
+        background: var(--accent); display: grid; place-items: center;
+        border-radius: 9px;
+      }
+
+      /* ---------- Spec strip ---------- */
+      .spec-strip {
+        display: grid; grid-template-columns: repeat(6, 1fr);
+        gap: 1px; background: var(--line);
+        border: 1px solid var(--line); border-radius: var(--radius-md);
+        overflow: hidden; margin: 56px 0 0;
+        clip-path: var(--notch-sm);
+      }
+      .spec-cell { background: var(--bg-soft); padding: 22px 18px; }
+      .spec-cell .big {
+        font-family: "DM Sans", sans-serif; font-weight: 800;
+        font-size: 21px; line-height: 1.15;
+      }
+      .spec-cell .small { color: var(--ink-3); font-size: 13px; margin-top: 5px; line-height: 1.45; }
+
+      /* ---------- Sections ---------- */
+      section { padding: 104px 0; scroll-margin-top: 84px; position: relative; }
+      .eyebrow {
+        font-size: 12.5px; font-weight: 700; letter-spacing: .22em;
+        color: var(--accent); text-transform: uppercase; margin-bottom: 18px;
+      }
+      .sec-head { max-width: 780px; }
+      .sec-head h2 { font-size: clamp(30px, 4.2vw, 48px); }
+      .sec-head .body { color: var(--ink-2); margin-top: 20px; font-size: 17px; }
+      .sec-photo { margin-top: 44px; }
+      .sec-photo img { aspect-ratio: 16 / 9; }
+
+      .ticks { list-style: none; margin: 44px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+      .ticks li {
+        display: flex; flex-direction: column; gap: 16px; align-items: flex-start;
+        background: #131316; color: var(--ink);
+        clip-path: var(--notch); padding: 24px 22px;
+        font-size: 15.5px; font-weight: 600; line-height: 1.55;
+      }
+      .mini-bullet {
+        display: flex; gap: 14px; align-items: flex-start;
+        margin-top: 40px; padding: 22px 24px;
+        clip-path: var(--notch);
+        background: var(--panel-2); font-size: 16px;
+      }
+      #camera .mini-bullet { background: #131316; color: var(--ink); }
+
+      /* ---------- Lighthouse spotlight ---------- */
+      .spotlight { position: relative; max-width: 880px; margin: 54px auto 0; }
+      .spotlight::before {
+        content: ""; position: absolute; left: 50%; top: 50%;
+        width: 80%; height: 90%; transform: translate(-50%, -50%);
+        background: radial-gradient(closest-side, rgba(255,106,26,.5), rgba(255,106,26,.12) 55%, transparent 75%);
+        filter: blur(6px); pointer-events: none;
+      }
+      .spot-photo { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
+      .spot-photo img { aspect-ratio: 4 / 3; }
+      .spot-chip {
+        position: absolute; z-index: 2;
+        background: #17171b; color: var(--ink);
+        font-size: 13.5px; font-weight: 700; line-height: 1.3;
+        padding: 11px 15px; border-radius: 999px;
+        display: inline-flex; align-items: center; gap: 8px;
+      }
+      .spot-chip::before {
+        content: "+"; color: var(--accent);
+        font-family: "DM Sans", sans-serif; font-weight: 800; font-size: 16px; line-height: 1;
+      }
+      .chip-tl { left: 0; top: 8%; }
+      .chip-tr { right: 0; top: 30%; }
+      .chip-bl { left: 0; bottom: 28%; }
+      .chip-br { right: 0; bottom: 8%; }
+      .mini-bullet .dot-mark {
+        flex: 0 0 auto; width: 10px; height: 10px; border-radius: 50%;
+        background: var(--accent); margin-top: 8px;
+      }
+      .mini-bullet strong { font-weight: 700; }
+
+      /* ---------- Honesty cards ---------- */
+      .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 44px; }
+      .h-card {
+        background: var(--panel-2);
+        clip-path: var(--notch); padding: 26px 24px;
+      }
+      .h-top { display: flex; align-items: center; gap: 12px; }
+      .h-card .num {
+        font-family: "DM Sans", sans-serif; font-weight: 800;
+        font-size: 13px; color: var(--accent); letter-spacing: .14em;
+      }
+      .h-card h3 { font-size: 21px; margin-top: 12px; }
+      .h-card p { color: var(--ink-2); font-size: 15px; margin-top: 10px; }
+
+      /* ---------- Combos ---------- */
+      .kit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 44px; align-items: stretch; }
+      .kit-frame { background: #dbd8d2; padding: 1px; clip-path: var(--notch); display: flex; }
+      .kit-frame.popular-frame { background: var(--accent); padding: 2px; }
+      .kit {
+        position: relative; flex: 1; display: flex; flex-direction: column;
+        background: #fff; color: var(--ink-on-paper);
+        clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% 100%, 0 100%);
+        padding: 30px 26px;
+      }
+      .kit-tag {
+        align-self: flex-start; margin-bottom: 16px;
+        background: var(--accent); color: #160a02;
+        font-size: 11.5px; font-weight: 700; letter-spacing: .12em;
+        padding: 5px 12px; border-radius: 999px;
+      }
+      .kit h3 { font-size: 21px; }
+      .kit .price {
+        font-family: "DM Sans", sans-serif; font-weight: 800;
+        font-size: 38px; margin-top: 14px;
+      }
+      .kit .price small { font-size: 14px; font-family: "Open Sans", sans-serif; font-weight: 600; color: var(--ink-3); }
+      .kit .desc { color: var(--ink-on-paper-2); font-size: 15px; margin-top: 14px; }
+      .kit .for { color: #6d6d72; font-size: 14px; margin-top: 16px; }
+      .kit .for strong { color: #2c2c30; font-weight: 700; }
+      .kit .buy {
+        margin-top: auto; padding-top: 26px;
+        display: flex; justify-content: flex-end;
+      }
+      .kit .buy button {
+        display: inline-flex; align-items: center; gap: 12px;
+        font-family: "Open Sans", sans-serif; font-weight: 700; font-size: 15px;
+        min-height: 44px;
+        padding: 0 0 0 20px; border-radius: 999px; cursor: pointer; overflow: hidden;
+        border: 0; background: var(--accent); color: #160a02;
+        transition: background .15s ease, transform .15s ease;
+      }
+      .kit .buy button .ptab { width: 44px; min-height: 44px; background: #160a02; color: var(--accent); }
+      .kit .buy button:hover { background: #ff7d3d; }
+      .kit .buy button:active { transform: scale(.98); }
+      .kits-note { color: #64646a; font-size: 13.5px; margin-top: 22px; max-width: 820px; }
+
+      /* ---------- Specs panel ---------- */
+      .specs-panel {
+        margin-top: 56px;
+        background: #0b0b0d; border: 1px solid var(--line);
+        clip-path: var(--notch); color: var(--ink);
+        padding: 10px 30px 26px;
+      }
+      .spec-group { padding-top: 22px; }
+      .spec-group + .spec-group { border-top: 1px solid var(--line); margin-top: 22px; }
+      .spec-group h3 {
+        font-size: 13px; letter-spacing: .18em; text-transform: uppercase;
+        color: var(--accent); font-family: "Open Sans", sans-serif; font-weight: 700;
+        margin-bottom: 8px;
+      }
+      .spec-row {
+        display: grid; grid-template-columns: 210px 1fr; gap: 16px;
+        padding: 9px 0; font-size: 15px;
+      }
+      .spec-row + .spec-row { border-top: 1px solid #1b1b1f; }
+      .spec-row .label { color: var(--ink-3); font-weight: 600; }
+      .spec-row .value { color: var(--ink); }
+
+      /* ---------- FAQ ---------- */
+      .faq-list { margin-top: 40px; display: grid; gap: 12px; }
+      .faq-item { background: var(--paper); clip-path: var(--notch-sm); }
+      .faq-q {
+        width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 18px;
+        background: none; border: 0; color: var(--ink-on-paper); cursor: pointer;
+        font-family: "DM Sans", sans-serif; font-weight: 800; font-size: 18.5px;
+        text-align: left; padding: 22px 22px;
+      }
+      .faq-q .chev {
+        flex: 0 0 auto; width: 30px; height: 30px; border-radius: 9px;
+        border: 0; background: var(--accent); display: grid; place-items: center;
+        transition: transform .25s ease;
+      }
+      .faq-q .chev svg { width: 14px; height: 14px; }
+      .faq-item.open .faq-q .chev { transform: rotate(45deg); }
+      .faq-a { display: none; padding: 0 22px 24px; color: var(--ink-on-paper-2); font-size: 16px; max-width: 860px; }
+      .faq-item.open .faq-a { display: block; }
+
+      /* ---------- Final CTA ---------- */
+      .final-cta { padding: 130px 0 110px; text-align: center; position: relative; }
+      .final-cta h2 { font-size: clamp(32px, 5vw, 56px); max-width: 780px; margin: 0 auto; }
+      .final-cta .btn { margin-top: 36px; font-size: 16px; min-height: 54px; padding: 0 0 0 28px; }
+      .final-cta .btn .ptab { width: 54px; min-height: 54px; }
+      .final-cta .fine { color: var(--ink-3); font-size: 14px; margin-top: 24px; }
+
+      /* ---------- Footer ---------- */
+      footer { border-top: 1px solid var(--line); padding: 46px 0 54px; background: var(--bg-soft); overflow: hidden; }
+      .foot-mark {
+        font-size: clamp(88px, 16.5vw, 205px); line-height: .82; letter-spacing: -0.02em;
+        color: #17171a; text-align: center; user-select: none; margin-bottom: 10px;
+      }
+      footer .series-row, footer .credit, footer .foot-small { position: relative; z-index: 1; }
+      .series-row {
+        display: flex; flex-wrap: wrap; gap: 10px 22px;
+        font-size: 14px; font-weight: 600; padding-bottom: 30px;
+        border-bottom: 1px solid var(--line);
+      }
+      .series-row a { color: var(--ink-2); text-decoration: none; }
+      .series-row a:hover { color: var(--ink); text-decoration: underline; }
+      .series-row .current { color: var(--accent); }
+      .series-row .muted { color: var(--ink-3); }
+      .credit { margin-top: 28px; font-size: 14.5px; color: var(--ink-2); }
+      .credit strong { color: var(--ink); font-weight: 700; }
+      .foot-small { margin-top: 10px; font-size: 13px; color: var(--ink-3); }
+
+      /* ---------- Checkout modal ---------- */
+      .overlay {
+        position: fixed; inset: 0; z-index: 100;
+        background: rgba(3,3,4,.72);
+        backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+        display: none; align-items: center; justify-content: center;
+        padding: 20px;
+      }
+      .overlay.open { display: flex; }
+      .modal {
+        width: min(480px, 100%);
+        background: var(--panel); border: 1px solid #33333a;
+        clip-path: var(--notch);
+        border-radius: var(--radius-lg); padding: 30px 28px 26px;
+        max-height: calc(100vh - 40px); overflow-y: auto;
+      }
+      .modal-head { display: flex; align-items: center; gap: 12px; }
+      .modal-head h2 { font-size: 26px; }
+      .demo-badge {
+        background: var(--accent); color: #160a02;
+        font-size: 11.5px; font-weight: 700; letter-spacing: .14em;
+        padding: 4px 10px; border-radius: 999px;
+      }
+      .modal-close {
+        margin-left: auto; width: 34px; height: 34px; border-radius: 10px;
+        border: 1px solid var(--line); background: var(--panel-2); color: var(--ink);
+        cursor: pointer; font-size: 16px; line-height: 1;
+      }
+      .modal-close:hover { background: #242429; }
+      .kit-options { display: grid; gap: 10px; margin-top: 24px; }
+      .kit-option {
+        display: flex; align-items: center; gap: 14px;
+        border: 1px solid var(--line); border-radius: var(--radius-md);
+        padding: 16px 18px; cursor: pointer; background: var(--bg-soft);
+        transition: border-color .15s ease;
+      }
+      .kit-option:hover { border-color: #3d3d44; }
+      .kit-option.selected { border-color: var(--accent); }
+      .kit-option input { accent-color: var(--accent); width: 18px; height: 18px; flex: 0 0 auto; cursor: pointer; }
+      .kit-option .ko-name { font-weight: 700; font-size: 15px; }
+      .kit-option .ko-price { margin-left: auto; font-family: "DM Sans", sans-serif; font-weight: 800; font-size: 17px; white-space: nowrap; }
+      .total-row {
+        display: flex; justify-content: space-between; align-items: baseline;
+        margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line);
+        font-size: 15px; color: var(--ink-2);
+      }
+      .total-row .total-val { font-family: "DM Sans", sans-serif; font-weight: 800; font-size: 24px; color: var(--ink); }
+      .pay-btn {
+        width: 100%; margin-top: 18px;
+        background: var(--accent); color: #160a02; border: 0; cursor: pointer;
+        font-family: "Open Sans", sans-serif; font-weight: 700; font-size: 16px;
+        padding: 16px 20px; border-radius: 999px;
+        transition: background .15s ease, transform .15s ease;
+      }
+      .pay-btn:hover { background: #ff7d3d; }
+      .pay-btn:active { transform: scale(.98); }
+      .modal-fine { color: var(--ink-3); font-size: 12.5px; text-align: center; margin-top: 14px; }
+      .demo-done {
+        display: none; text-align: center; padding: 34px 6px 10px;
+      }
+      .demo-done .done-mark {
+        width: 58px; height: 58px; border-radius: 50%; margin: 0 auto 18px;
+        background: var(--accent); display: grid; place-items: center;
+      }
+      .demo-done .done-mark svg { width: 28px; height: 28px; }
+      .demo-done h3 { font-size: 22px; }
+      .demo-done p { color: var(--ink-2); font-size: 15px; margin-top: 10px; }
+      .modal.done .checkout-body { display: none; }
+      .modal.done .demo-done { display: block; }
+
+      /* ---------- Responsive ---------- */
+      @media (max-width: 900px) {
+        .spec-strip { grid-template-columns: repeat(3, 1fr); }
+        .cards-3, .kit-grid, .ticks { grid-template-columns: 1fr; }
+        .kit-frame.popular-frame { margin-top: 14px; }
+        .spotlight { display: flex; flex-direction: column; gap: 10px; }
+        .spot-photo { width: 100%; }
+        .spot-chip { position: static; align-self: flex-start; }
+        .chip-tr, .chip-br { align-self: flex-end; }
+      }
+      @media (max-width: 640px) {
+        .nav-links { display: none; }
+        .nav-in { gap: 14px; justify-content: space-between; }
+        .hero { padding-top: 48px; }
+        section { padding-top: 76px; }
+        .spec-strip { grid-template-columns: repeat(2, 1fr); }
+        .spec-row { grid-template-columns: 1fr; gap: 2px; padding: 11px 0; }
+        .specs-panel { padding: 6px 20px 20px; }
+        .hero-photo img { aspect-ratio: 4 / 3; }
+        .final-cta { padding: 96px 0 84px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- ============ NAV ============ -->
+    <header class="nav">
+      <div class="nav-in">
+        <div class="nav-label">Aqua <span>·</span> concept</div>
+        <nav class="nav-links" aria-label="Sections">
+          <a href="#water">Water-first</a>
+          <a href="#lighthouse">Lighthouse</a>
+          <a href="#camera">Camera</a>
+          <a href="#combos">Combos</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <button class="buy-pill" type="button" data-buy="standard">Buy — from £1,129</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- ============ HERO ============ -->
+      <div class="hero wrap">
+        <div class="hero-name display">AQU<span class="last">A</span><span class="dot">.</span></div>
+        <div class="hero-photo photo-panel">
+          <img src="assets/img-910dc24d44f0.webp" alt="The orange HOVERAir Aqua floating on blue water, seen from above" />
+          <a class="video-chip" href="#water">
+            <span class="vc-play" aria-hidden="true"><svg width="11" height="12" viewBox="0 0 11 12" fill="none"><path d="M1.5 1.2 10 6l-8.5 4.8z" fill="#160a02"/></svg></span>
+            <span>Watch it land on water</span>
+          </a>
+        </div>
+        <h1>The drone that lands on water — on purpose.</h1>
+        <p class="sub">Every other drone treats water as the thing that kills it. The Aqua is built for it: IP67 waterproof, it floats, it takes off from the surface — and if a wave flips it, Turtle Flip rights it and it flies again. A 4K/100fps camera that follows you hands-free while you surf, paddle or foil.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-accent" href="#combos">See the combos →<span class="ptab" aria-hidden="true">+</span></a>
+          <a class="btn btn-ghost" href="#water">Watch it land on water ↓<span class="ptab" aria-hidden="true">+</span></a>
+        </div>
+        <p class="hero-micro">From £1,129 · 249g · IP67 · 4K/100fps · Up to 23 min claimed</p>
+
+        <!-- Spec strip -->
+        <div class="spec-strip">
+          <div class="spec-cell"><div class="big">IP67</div><div class="small">Fully waterproof, floats</div></div>
+          <div class="spec-cell"><div class="big">249g</div><div class="small">Under 250g</div></div>
+          <div class="spec-cell"><div class="big">4K/100fps</div><div class="small">1/1.28-inch CMOS</div></div>
+          <div class="spec-cell"><div class="big">23 min</div><div class="small">Claimed flight</div></div>
+          <div class="spec-cell"><div class="big">Level 7 wind</div><div class="small">Up to 33 knots</div></div>
+          <div class="spec-cell"><div class="big">128GB</div><div class="small">Internal, no microSD</div></div>
+        </div>
+      </div>
+
+      <!-- ============ WATER-FIRST ============ -->
+      <section id="water" class="band-white">
+        <span class="band-tab tab-black" aria-hidden="true"></span>
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow">Water-first</p>
+            <h2>This drone was not adapted to water. It was born in it.</h2>
+            <p class="body">The orange foam ring is buoyancy, prop protection and visibility on dark water in one piece. The body is non-foldable on purpose — folding joints are leak points. Components are corrosion-resistant, and the lens is hydrophobic and self-heating, so droplets and fog do not ruin the shot.</p>
+          </div>
+          <div class="sec-photo photo-panel">
+            <img src="assets/img-3218422970d9.webp" alt="The HOVERAir Aqua bursting out of the water in a splash against a black background" loading="lazy" />
+          </div>
+          <ul class="ticks">
+            <li>
+              <span class="plus-chip" aria-hidden="true">+</span>
+              <span>Floats and takes off from the surface — no launch pad, no dry hand, no beach run-up</span>
+            </li>
+            <li>
+              <span class="plus-chip" aria-hidden="true">+</span>
+              <span>Turtle Flip self-righting — flipped by a wave, it rights itself and hovers, waiting</span>
+            </li>
+            <li>
+              <span class="plus-chip" aria-hidden="true">+</span>
+              <span>Dead battery? It lands softly on the surface and floats — you paddle to it, you do not dive for it</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ LIGHTHOUSE ============ -->
+      <section id="lighthouse" class="band-black">
+        <span class="band-tab tab-paper" aria-hidden="true"></span>
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow">Lighthouse</p>
+            <h2>You wear the controller on your arm. Then you forget it exists.</h2>
+            <p class="body">The Lighthouse wearable strapped to your arm is the link — RTK-assisted tracking keeps the drone locked on you even when you turn away, and it handles takeoff, landing, recording, mode selection and remote recall from your wrist. A surfer cannot hold a controller and a kayaker cannot clip on a phone, so this is what makes the solo water shot possible.</p>
+          </div>
+          <div class="spotlight">
+            <div class="spot-photo photo-panel">
+              <img src="assets/img-ba777907d9eb.webp" alt="The orange Lighthouse wearable strapped to a person's arm in a wetsuit" loading="lazy" />
+            </div>
+            <span class="spot-chip chip-tl">RTK-assisted tracking</span>
+            <span class="spot-chip chip-tr">Takeoff from your wrist</span>
+            <span class="spot-chip chip-bl">15+ flight modes</span>
+            <span class="spot-chip chip-br">Follows at up to 55 km/h</span>
+          </div>
+          <div class="mini-bullet">
+            <span class="dot-mark" aria-hidden="true"></span>
+            <p><strong>15+ flight modes</strong> — Follow, Orbit, Bird's Eye, plus dedicated Paddle, Kayak, Foil and Snorkel modes, tracking at up to 55 km/h.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CAMERA ============ -->
+      <section id="camera" class="band-white-2">
+        <span class="band-tab tab-black" aria-hidden="true"></span>
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow">Camera</p>
+            <h2>4K at 100 frames a second — because water only looks fast in slow motion.</h2>
+            <p class="body">12MP stills with HDR from a 1/1.28-inch sensor, 4K/100fps slow motion, 4K/60fps HDR for bright reflections off the surface, 10-bit H-Log for creators who grade, and vertical shooting for Reels and TikTok. SmoothCapture 3.0 pairs a 1-axis mechanical gimbal with electronic stabilisation and horizon levelling.</p>
+          </div>
+          <div class="sec-photo photo-panel">
+            <img src="assets/img-812892be7fd7.webp" alt="The HOVERAir Aqua floating on open blue water, seen from above" loading="lazy" />
+          </div>
+          <div class="mini-bullet">
+            <span class="dot-mark" aria-hidden="true"></span>
+            <p><strong>128GB internal storage, no microSD slot</strong> — plenty for a day on the water, but when it fills you transfer before you fly again.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ HONESTY ============ -->
+      <section id="honesty" class="band-black">
+        <span class="band-tab tab-white" aria-hidden="true"></span>
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow">The honest section</p>
+            <h2>The price, the battery and the missing sensor — said out loud.</h2>
+          </div>
+          <div class="cards-3">
+            <div class="h-card">
+              <div class="h-top"><span class="plus-chip" aria-hidden="true">+</span><span class="num">01</span></div>
+              <h3>23 minutes is the claim</h3>
+              <p>Reviewers tracking actively in strong wind measured 10–13 minutes, so plan short shoots and spare batteries.</p>
+            </div>
+            <div class="h-card">
+              <div class="h-top"><span class="plus-chip" aria-hidden="true">+</span><span class="num">02</span></div>
+              <h3>It follows you. It does not dodge</h3>
+              <p>Tracking is positional (ShadowTrack), not obstacle avoidance. It belongs over open water, not through trees or near cliffs.</p>
+            </div>
+            <div class="h-card">
+              <div class="h-top"><span class="plus-chip" aria-hidden="true">+</span><span class="num">03</span></div>
+              <h3>£1,129, and not sold in the US</h3>
+              <p>Roughly four times a Neo 2, and reported as not currently available in the US (FCC/regulatory), so no US delivery promises.</p>
+            </div>
+          </div>
+          <div class="mini-bullet">
+            <span class="dot-mark" aria-hidden="true"></span>
+            <p>After salt water, rinse and dry it — every time. The battery is only fully waterproof while it sits in the drone.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ COMBOS ============ -->
+      <section id="combos" class="band-white">
+        <span class="band-tab tab-black" aria-hidden="true"></span>
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow">Combos</p>
+            <h2>Pick your kit</h2>
+          </div>
+          <div class="kit-grid">
+            <div class="kit-frame">
+            <div class="kit">
+              <h3>Aqua Standard Combo</h3>
+              <div class="price">£1,129</div>
+              <p class="desc">Drone, one battery, Lighthouse wearable with armband, repair kit, one waterproof battery bag, USB-C cable.</p>
+              <p class="for"><strong>For:</strong> solo water-sport creators buying their first self-flying camera.</p>
+              <div class="buy"><button type="button" data-buy="standard">Buy Standard — £1,129<span class="ptab" aria-hidden="true">+</span></button></div>
+            </div>
+            </div>
+            <div class="kit-frame popular-frame">
+            <div class="kit popular">
+              <span class="kit-tag">MOST POPULAR</span>
+              <h3>Aqua Basic Combo</h3>
+              <div class="price">£1,219</div>
+              <p class="desc">Adds a second battery and a charging hub (charges two sequentially) plus a second waterproof bag.</p>
+              <p class="for"><strong>For:</strong> creators who want a second session without waiting on a charge.</p>
+              <div class="buy"><button type="button" data-buy="basic">Buy Basic — £1,219<span class="ptab" aria-hidden="true">+</span></button></div>
+            </div>
+            </div>
+            <div class="kit-frame">
+            <div class="kit">
+              <h3>Aqua Fly More Combo</h3>
+              <div class="price">£1,299</div>
+              <p class="desc">Three batteries total, three waterproof battery bags, charging hub and maintenance kit.</p>
+              <p class="for"><strong>For:</strong> a full day on the water, back-to-back sessions.</p>
+              <div class="buy"><button type="button" data-buy="flymore">Buy Fly More — £1,299<span class="ptab" aria-hidden="true">+</span></button></div>
+            </div>
+            </div>
+          </div>
+          <p class="kits-note">UK retail prices. Dollar prices where sold: $1,299 / $1,399 / $1,499 — but the Aqua is reported as not currently sold in the US, so check a retailer that ships to you.</p>
+
+          <!-- Grouped full specifications -->
+          <div class="specs-panel">
+            <div class="spec-group">
+              <h3>Aircraft</h3>
+              <div class="spec-row"><span class="label">Weight</span><span class="value">249g</span></div>
+              <div class="spec-row"><span class="label">Waterproofing</span><span class="value">IP67, floats, Turtle Flip self-righting</span></div>
+              <div class="spec-row"><span class="label">Wind resistance</span><span class="value">Level 7 (up to 33 knots / 38 mph)</span></div>
+              <div class="spec-row"><span class="label">Flight time</span><span class="value">Up to 23 min (claimed)</span></div>
+              <div class="spec-row"><span class="label">Storage</span><span class="value">128GB internal, no microSD slot</span></div>
+              <div class="spec-row"><span class="label">Battery</span><span class="value">2,013mAh</span></div>
+            </div>
+            <div class="spec-group">
+              <h3>Camera</h3>
+              <div class="spec-row"><span class="label">Sensor</span><span class="value">12MP 1/1.28-inch CMOS</span></div>
+              <div class="spec-row"><span class="label">Video</span><span class="value">4K/100fps slow motion, 4K/60fps HDR, 10-bit H-Log</span></div>
+              <div class="spec-row"><span class="label">Zoom</span><span class="value">2x digital</span></div>
+              <div class="spec-row"><span class="label">Stabilisation</span><span class="value">SmoothCapture 3.0 (1-axis gimbal + EIS + horizon levelling)</span></div>
+              <div class="spec-row"><span class="label">Lens</span><span class="value">Hydrophobic, anti-fog, self-heating</span></div>
+            </div>
+            <div class="spec-group">
+              <h3>Tracking</h3>
+              <div class="spec-row"><span class="label">Tracking</span><span class="value">Lighthouse wearable with RTK-assisted tracking (ShadowTrack)</span></div>
+              <div class="spec-row"><span class="label">Tracking speed</span><span class="value">Up to 55 km/h</span></div>
+              <div class="spec-row"><span class="label">Flight modes</span><span class="value">15+, incl. Paddle, Kayak, Foil, Snorkel</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FAQ ============ -->
+      <section id="faq" class="band-white-2">
+        <span class="band-tab tab-paper" aria-hidden="true"></span>
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow">FAQ</p>
+            <h2>Questions, answered straight</h2>
+          </div>
+          <div class="faq-list">
+            <div class="faq-item">
+              <button class="faq-q" type="button" aria-expanded="false">
+                <span>Can it really take off from water?</span>
+                <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#160a02" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </button>
+              <div class="faq-a">Yes — it floats, takes off from the surface and lands back on it. If a wave flips it, Turtle Flip rights it and it hovers, waiting for you.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q" type="button" aria-expanded="false">
+                <span>Do I need a controller or a phone in my hand?</span>
+                <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#160a02" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </button>
+              <div class="faq-a">No. The Lighthouse wearable on your arm handles takeoff, landing, recording, mode selection and recall. A phone app exists, but on the water your hands stay on your board or paddle.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q" type="button" aria-expanded="false">
+                <span>How long does it really fly?</span>
+                <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#160a02" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </button>
+              <div class="faq-a">Claimed up to 23 minutes in lab conditions. Reviewers measuring active tracking in strong wind got 10–13 minutes — plan short shoots and carry spare batteries.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q" type="button" aria-expanded="false">
+                <span>Does it avoid obstacles?</span>
+                <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#160a02" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </button>
+              <div class="faq-a">Not like the DJI drones in this series. It follows your position (ShadowTrack) over open water; it does not have omnidirectional obstacle avoidance, so keep it over open water and away from trees, cliffs and other people.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q" type="button" aria-expanded="false">
+                <span>Can I buy it in the US / Nigeria?</span>
+                <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#160a02" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              </button>
+              <div class="faq-a">UK retail starts at £1,129. In the US it is reported as not currently for sale due to FCC regulatory issues, so check a retailer that ships to you before promising a price. In Nigeria, check NCAA requirements before you fly, and budget for the salt-water rinse routine after every session.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FINAL CTA ============ -->
+      <div class="final-cta wrap">
+        <span class="band-tab tab-white" aria-hidden="true"></span>
+        <h2>Stop hiring a filmer. Start landing on water.</h2>
+        <button class="btn btn-accent" type="button" data-buy="standard">Get the Aqua — from £1,129<span class="ptab" aria-hidden="true">+</span></button>
+        <p class="fine">Concept redesign for design demonstration. Not affiliated with HOVERAir.</p>
+      </div>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer>
+      <div class="wrap">
+        <div class="foot-mark display" aria-hidden="true">AQUA</div>
+        <nav class="series-row" aria-label="Drone series">
+          <a href="https://dji-mini-5-pro-concept.vercel.app">Day 1 · DJI Mini 5 Pro</a>
+          <a href="https://dji-lito-1-concept.vercel.app">Day 2 · DJI Lito 1</a>
+          <a href="https://dji-flip-concept.vercel.app">Day 3 · DJI Flip</a>
+          <a href="https://potensic-atom-3-concept.vercel.app">Day 4 · Potensic Atom 3</a>
+          <a href="https://dji-neo-2-concept.vercel.app">Day 5 · DJI Neo 2</a>
+          <span class="current">Day 6 · HOVERAir Aqua</span>
+          <span class="muted">Day 7 · DJI Lito X1 — tomorrow</span>
+        </nav>
+        <p class="credit">Concept landing page designed by <strong>Aivora Hub</strong> — Web Dev | UI/UX | Landing Pages</p>
+        <p class="foot-small">© 2026 Aivora Hub — Concept redesign for design demonstration. Not affiliated with HOVERAir.</p>
+        <p class="foot-small">Specs from HOVERAir's published Aqua materials and reviews (checked 2 Nov 2026).</p>
+      </div>
+    </footer>
+
+    <!-- ============ DEMO CHECKOUT ============ -->
+    <div class="overlay" id="checkoutOverlay" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+      <div class="modal" id="checkoutModal">
+        <div class="modal-head">
+          <h2 id="checkoutTitle">Checkout</h2>
+          <span class="demo-badge">DEMO</span>
+          <button class="modal-close" type="button" id="checkoutClose" aria-label="Close checkout">✕</button>
+        </div>
+        <div class="checkout-body">
+          <div class="kit-options" role="radiogroup" aria-label="Choose your kit">
+            <label class="kit-option" data-kit-option="standard">
+              <input type="radio" name="kit" value="standard" checked />
+              <span class="ko-name">Aqua Standard Combo</span>
+              <span class="ko-price">£1,129</span>
+            </label>
+            <label class="kit-option" data-kit-option="basic">
+              <input type="radio" name="kit" value="basic" />
+              <span class="ko-name">Aqua Basic Combo</span>
+              <span class="ko-price">£1,219</span>
+            </label>
+            <label class="kit-option" data-kit-option="flymore">
+              <input type="radio" name="kit" value="flymore" />
+              <span class="ko-name">Aqua Fly More Combo</span>
+              <span class="ko-price">£1,299</span>
+            </label>
+          </div>
+          <div class="total-row">
+            <span>Total</span>
+            <span class="total-val" id="checkoutTotal">£1,129</span>
+          </div>
+          <button class="pay-btn" type="button" id="payBtn">Pay £1,129 — demo</button>
+          <p class="modal-fine">Demo checkout — no payment is taken, and nothing is sent or stored.</p>
+        </div>
+        <div class="demo-done" id="demoDone">
+          <div class="done-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5 10 18 20 6" stroke="#160a02" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Demo complete — nothing was charged</h3>
+          <p>This is a concept checkout. No payment was taken, and nothing is sent or stored.</p>
+          <button class="pay-btn" type="button" id="doneClose" style="margin-top:22px;">Back to the page</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var PRICES = { standard: 1129, basic: 1219, flymore: 1299 };
+        function fmt(n) { return "£" + n.toLocaleString("en-GB"); }
+
+        var overlay = document.getElementById("checkoutOverlay");
+        var modal = document.getElementById("checkoutModal");
+        var totalEl = document.getElementById("checkoutTotal");
+        var payBtn = document.getElementById("payBtn");
+        var radios = Array.prototype.slice.call(document.querySelectorAll('input[name="kit"]'));
+        var options = Array.prototype.slice.call(document.querySelectorAll(".kit-option"));
+
+        function currentKit() {
+          for (var i = 0; i < radios.length; i++) {
+            if (radios[i].checked) return radios[i].value;
+          }
+          return "standard";
+        }
+        function refresh() {
+          var kit = currentKit();
+          totalEl.textContent = fmt(PRICES[kit]);
+          payBtn.textContent = "Pay " + fmt(PRICES[kit]) + " — demo";
+          options.forEach(function (opt) {
+            opt.classList.toggle("selected", opt.getAttribute("data-kit-option") === kit);
+          });
+        }
+        function selectKit(kit) {
+          radios.forEach(function (r) { r.checked = (r.value === kit); });
+          refresh();
+        }
+        function openCheckout(kit) {
+          modal.classList.remove("done");
+          selectKit(kit || "standard");
+          overlay.classList.add("open");
+          document.body.style.overflow = "hidden";
+        }
+        function closeCheckout() {
+          overlay.classList.remove("open");
+          document.body.style.overflow = "";
+        }
+
+        radios.forEach(function (r) { r.addEventListener("change", refresh); });
+        document.querySelectorAll("[data-buy]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            openCheckout(btn.getAttribute("data-buy"));
+          });
+        });
+        payBtn.addEventListener("click", function () { modal.classList.add("done"); });
+        document.getElementById("checkoutClose").addEventListener("click", closeCheckout);
+        document.getElementById("doneClose").addEventListener("click", closeCheckout);
+        overlay.addEventListener("click", function (e) { if (e.target === overlay) closeCheckout(); });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && overlay.classList.contains("open")) closeCheckout();
+        });
+        refresh();
+
+        // FAQ accordion
+        document.querySelectorAll(".faq-item").forEach(function (item) {
+          var q = item.querySelector(".faq-q");
+          q.addEventListener("click", function () {
+            var isOpen = item.classList.contains("open");
+            document.querySelectorAll(".faq-item.open").forEach(function (other) {
+              other.classList.remove("open");
+              other.querySelector(".faq-q").setAttribute("aria-expanded", "false");
+            });
+            if (!isOpen) {
+              item.classList.add("open");
+              q.setAttribute("aria-expanded", "true");
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
